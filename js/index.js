@@ -26,28 +26,39 @@ function findWeatherDetails() {
 function theResponse(response) {
 	let jsonObject = JSON.parse(response);	// Convert string from server into objects
 	console.log(jsonObject);
-	let j = 1;
-	let dayIndexes = [0, 0];
+
+	const date = new Date();
+	const timeOffset = date.getTimezoneOffset()/60;
+	console.log(`Time offset = ${timeOffset}`);
+	let j = 1;	// Used to incriment columns (i.e. days)
+	let dayIndexes = [0, 0];	// Used to track change in day
 	for (i = 0; i < 40; i++) {
-		// Populate weather
-		const segDate = jsonObject.list[i].dt_txt;
-		const timeIndex = segDate.slice(11, 13)/3;
+		const segDate = jsonObject.list[i].dt_txt;	// Pull UTC date and time from API
+		let localTime = segDate.slice(11, 13) - timeOffset;	// Pull time, convert to local
+		// If local time is negative, roll over to previous day
+		if (localTime < 0) {
+			localTime += 24;
+		}
+		// Creat time indexes for identifying appropriate table cells
+		let timeIndex = Math.floor((localTime)/3);
 
 		if (i === 0) {
 			dayIndexes = [segDate.slice(8, 10), segDate.slice(8, 10)];
 		}
-		console.log(dayIndexes);
+
 		dayIndexes[1] = segDate.slice(8, 10);
-		if (dayIndexes[1] !== dayIndexes[0]) {
+		if (timeIndex === 0) {
 			j++;
 			dayIndexes[0] = segDate.slice(8, 10);
-			console.log("J = " + j);
 		}
+
 		if (j > 5) {
 			break;
 		}
-		console.log(i);
+
+		console.log(timeIndex + ' ' + j);
 		let day = document.getElementById(`day${j}${timeIndex}`);
+		console.log(`day${j}${timeIndex}`);
 		day.textContent = jsonObject.list[i].main.temp + ' degrees K, ' + jsonObject.list[i].weather[0].description;
 	}
 	// cityName.innerHTML = jsonObject.name;
