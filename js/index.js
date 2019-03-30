@@ -26,14 +26,12 @@ function findWeatherDetails() {
 function theResponse(response) {
 	let jsonObject = JSON.parse(response);	// Convert string from server into objects
 	console.log(jsonObject);
-	for (j = 1; j <= 5; j++) {
+	for (i = 0; i < 40; i++) {
 		// Populate weather
-		for (i = 0; i <= 7; i++) {
 			const segTime = jsonObject.list[(j - 1)*7 + (j - 1) + i].dt_txt;
 			const timeIndex = segTime.slice(11, 13)/3;
 			let day = document.getElementById(`day${j}${i}`);
 			day.textContent = jsonObject.list[(j - 1)*7 + (j - 1) + i].main.temp + ' degrees K, ' + jsonObject.list[(j - 1)*7 + i].weather[0].description;
-		}
 	}
 	// cityName.innerHTML = jsonObject.name;
 	// icon.src = `http://openweathermap.org/img/w/${jsonObject.weather[0].icon}.png`;
