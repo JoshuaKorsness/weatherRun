@@ -1,0 +1,21 @@
+body{
+  background-color: #eee;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.dayOne, .dayTwo, .dayThree, .dayFour, .dayFive {
+  display: flex;
+  flex-direction: column;
+}
+
+.segment {
+  border: 2px solid black;
+  height: 50px;
+  width: 150px;
+  margin: 0;
+  padding: 0;
+}
