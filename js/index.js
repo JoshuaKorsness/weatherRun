@@ -26,12 +26,29 @@ function findWeatherDetails() {
 function theResponse(response) {
 	let jsonObject = JSON.parse(response);	// Convert string from server into objects
 	console.log(jsonObject);
+	let j = 1;
+	let dayIndexes = [0, 0];
 	for (i = 0; i < 40; i++) {
 		// Populate weather
-			const segTime = jsonObject.list[(j - 1)*7 + (j - 1) + i].dt_txt;
-			const timeIndex = segTime.slice(11, 13)/3;
-			let day = document.getElementById(`day${j}${i}`);
-			day.textContent = jsonObject.list[(j - 1)*7 + (j - 1) + i].main.temp + ' degrees K, ' + jsonObject.list[(j - 1)*7 + i].weather[0].description;
+		const segDate = jsonObject.list[i].dt_txt;
+		const timeIndex = segDate.slice(11, 13)/3;
+
+		if (i === 0) {
+			dayIndexes = [segDate.slice(8, 10), segDate.slice(8, 10)];
+		}
+		console.log(dayIndexes);
+		dayIndexes[1] = segDate.slice(8, 10);
+		if (dayIndexes[1] !== dayIndexes[0]) {
+			j++;
+			dayIndexes[0] = segDate.slice(8, 10);
+			console.log("J = " + j);
+		}
+		if (j > 5) {
+			break;
+		}
+		console.log(i);
+		let day = document.getElementById(`day${j}${timeIndex}`);
+		day.textContent = jsonObject.list[i].main.temp + ' degrees K, ' + jsonObject.list[i].weather[0].description;
 	}
 	// cityName.innerHTML = jsonObject.name;
 	// icon.src = `http://openweathermap.org/img/w/${jsonObject.weather[0].icon}.png`;
