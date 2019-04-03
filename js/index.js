@@ -26,12 +26,13 @@ function findWeatherDetails() {
 function theResponse(response) {
 	let jsonObject = JSON.parse(response);	// Convert string from server into objects
 	console.log(jsonObject);
-
 	const date = new Date();
 	const timeOffset = date.getTimezoneOffset()/60;
-	console.log(`Time offset = ${timeOffset}`);
 	let j = 1;	// Used to incriment columns (i.e. days)
-	let dayIndexes = [0, 0];	// Used to track change in day
+	let jLabel = 1;
+	let weatherDayList = [];
+
+	// Populate weather segments
 	for (i = 0; i < 40; i++) {
 		const segDate = jsonObject.list[i].dt_txt;	// Pull UTC date and time from API
 		let localTime = segDate.slice(11, 13) - timeOffset;	// Pull time, convert to local
@@ -42,25 +43,39 @@ function theResponse(response) {
 		// Creat time indexes for identifying appropriate table cells
 		let timeIndex = Math.floor((localTime)/3);
 
+		// Label header for first day
 		if (i === 0) {
-			dayIndexes = [segDate.slice(8, 10), segDate.slice(8, 10)];
+			let dayHead = document.getElementById(`dayName1`);
+			dayHead.textContent = segDate.slice(5, 10);
 		}
 
-		dayIndexes[1] = segDate.slice(8, 10);
+		// Iterate day
 		if (timeIndex === 0) {
 			j++;
-			dayIndexes[0] = segDate.slice(8, 10);
+			if (j > 5) {
+				break;
+			}
+			// Label day header
+			let dayHead = document.getElementById(`dayName${j}`);
+			dayHead.textContent = jsonObject.list[7*j].dt_txt.slice(5, 10);
 		}
 
-		if (j > 5) {
-			break;
+
+		// Pick optimal running day
+		weatherDayList.push({timeIndex: timeIndex, weightedScore: 0, weatherCode: jsonObject.list[i].weather[0].id, temp: jsonObject.list[i].main.temp, weather: jsonObject.list[i].weather[0].description, humidity: jsonObject.list[i].main.humidity})
+		if (timeIndex === 7) {
+			console.log('fire');
+			runIndex = optimalRun(weatherDayList);
+			let runDay = document.getElementById(`day${j}${runIndex[0].timeIndex}`);
+			runDay.style.backgroundColor = 'green';
+			weatherDayList = [];
 		}
 
-		console.log(timeIndex + ' ' + j);
+		// Write weather info into cell
 		let day = document.getElementById(`day${j}${timeIndex}`);
-		console.log(`day${j}${timeIndex}`);
 		day.textContent = jsonObject.list[i].main.temp + ' degrees K, ' + jsonObject.list[i].weather[0].description;
 	}
+
 	// cityName.innerHTML = jsonObject.name;
 	// icon.src = `http://openweathermap.org/img/w/${jsonObject.weather[0].icon}.png`;
 	// temperature.innerHTML = parseInt(jsonObject.main.temp - 273) + "°";
@@ -85,4 +100,65 @@ function httpRequestAsync(url, callback){
 	// Initializes newly created request, runs GET method, sends request to URL, true lets it run asynchronously
 	httpRequest.open("GET", url, true);
 	httpRequest.send();	// Send request to server
+}
+
+// Function to choose optimal running time
+function optimalRun(weatherObject) {
+
+	console.log(weatherObject);
+
+	// Adjust weighted scores for humidity
+	weatherObject.sort(function(a, b){return a.humidity - b.humidity});
+	weatherObject.forEach(function(i) {
+		i.weightedScore += 0.75*weatherObject.indexOf(i);
+	})
+
+	// Adjust weighted scores for temperature
+	weatherObject.sort(function(a, b){return a.temp - b.temp});
+	weatherObject.forEach(function(i) {
+		i.weightedScore += weatherObject.indexOf(i);
+	})
+
+	// Adjust weighted scores for weather
+	weatherObject.forEach(function(i) {
+		if (i.weatherCode[0] === 2) {
+			// Thunderstorm 
+			i.weightedScore += 6;
+		}
+		else if (i.weatherCode[0] === 3) {
+			// Drizzle
+			i.weightedScore += 4;
+		}
+		else if (i.weatherCode[0] === 5) {
+			// Rain
+			i.weightedScore += 5;
+		}
+		else if (i.weatherCode[0] === 6) {
+			// Snow
+			i.weightedScore += 3;
+		}
+		else if (i.weatherCode[0] === 7) {
+			// Atmosphere
+			i.weightedScore += 2;
+		}
+		else if (i.weatherCode === 800) {
+			// Clear
+			i.weightedScore += 0.5;
+		}
+		else if (i.weatherCode > 800) {
+			// Clouds
+			i.weightedScore += 0;
+		}
+	})
+
+	console.log(weatherObject);
+
+	// Sort weatherObject based on lowest to highest score
+	weatherObject.sort(function(a, b){return a.weightedScore - b.weightedScore});
+
+	return weatherObject;
+}
+
+function redSeg(segment) {
+	let day = segment.id[3];	// Will return 1 - 5
 }
