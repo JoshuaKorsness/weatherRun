@@ -66,6 +66,14 @@ function theResponse(response) {
 		if (timeIndex === 7) {
 			console.log('fire');
 			runIndex = optimalRun(weatherDayList);
+
+			// Update data-score
+			runIndex.forEach(function(i) {
+				let day = document.getElementById(`day${j}${i.timeIndex}`);
+				day.dataset.score = i.weightedScore;
+			})
+
+			// Pick optimal running day
 			let runDay = document.getElementById(`day${j}${runIndex[0].timeIndex}`);
 			runDay.style.backgroundColor = 'green';
 			weatherDayList = [];
@@ -73,6 +81,7 @@ function theResponse(response) {
 
 		// Write weather info into cell
 		let day = document.getElementById(`day${j}${timeIndex}`);
+		day.addEventListener('click', redSeg);
 		day.textContent = jsonObject.list[i].main.temp + ' degrees K, ' + jsonObject.list[i].weather[0].description;
 	}
 
@@ -160,5 +169,41 @@ function optimalRun(weatherObject) {
 }
 
 function redSeg(segment) {
-	let day = segment.id[3];	// Will return 1 - 5
+	// Set data-runOk as false
+	segment.target.dataset.runOk = "0";
+	segment.target.style.backgroundColor = 'red';
+
+	const dayIndex = segment.target.id[3];	// Will return 1 - 5
+
+	const dayList = []; 
+	for (var i = 0; i <= 7; i++) {
+		dayList.push(document.getElementById(`day${dayIndex}${i}`));
+	}
+
+	// console.log(dayList);
+
+	// Remove red segements from list
+	dayList.forEach(function(i) {
+		if (i.dataset.runOk === "0") {
+			const index = dayList.indexOf(i);
+			console.log(index);
+			if (index > -1) {
+				delete dayList[index];
+				// dayList.splice(index, 1);
+			}
+		}
+	})
+
+	// console.log(dayList);
+
+	// Set all backgrounds to white
+	dayList.forEach(function(i) {
+		i.style.background = 'white';
+	})
+
+	// Sort remaining entries by score
+	dayList.sort(function(a, b){return a.dataset.score - b.dataset.score});
+
+	// Pick optimal running day
+	dayList[0].style.backgroundColor = "green";
 }
