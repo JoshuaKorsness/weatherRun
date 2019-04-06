@@ -66,15 +66,17 @@ function theResponse(response) {
 		if (timeIndex === 7) {
 			runIndex = optimalRun(weatherDayList);
 
-			// Update data-score
+			// Update data-score and and maek cursor pointer
 			runIndex.forEach(function(i) {
 				let day = document.getElementById(`day${j}${i.timeIndex}`);
+				day.style.cursor = 'pointer'; 
 				day.dataset.score = i.weightedScore;
 			})
 
 			// Pick optimal running day
 			let runDay = document.getElementById(`day${j}${runIndex[0].timeIndex}`);
-			runDay.style.backgroundColor = 'green';
+			runDay.style.backgroundColor = '#005117';
+			runDay.style.color = 'white';
 			weatherDayList = [];
 		}
 
@@ -180,6 +182,7 @@ function redSeg(segment) {
 
 	// Remove red segements from list
 	dayList.forEach(function(i) {
+		i.style.color = "#000000"
 		if (i.dataset.runOk === "0") {
 			const index = dayList.indexOf(i);
 			console.log(index);
@@ -194,7 +197,7 @@ function redSeg(segment) {
 
 	// Set all backgrounds to white
 	dayList.forEach(function(i) {
-		i.style.background = 'white';
+		i.style.background = '#d4eef7';
 	})
 
 	// Sort remaining entries by score
@@ -206,5 +209,6 @@ function redSeg(segment) {
 	console.log(dayListFilt);
 
 	// Pick optimal running day
-	dayListFilt[0].style.backgroundColor = "green";
+	dayListFilt[0].style.backgroundColor = "#005117";
+	dayListFilt[0].style.color = "white";
 }
