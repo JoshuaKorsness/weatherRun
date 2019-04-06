@@ -1,10 +1,49 @@
 body{
   background-color: #eee;
+  font-family: 'Gloria Hallelujah', cursive;
+  background-image: url('background.jpg');
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  text-align: center; 
+}
+
+.intro1 {
+  font-family: 'Contrail One', cursive;
+  font-size: 4rem;
+  color: #d4eef7;
+}
+
+.intro2, .intro3 {
+  font-family: 'Contrail One', cursive;
+  font-size: 1.25rem;
+  color: #d4eef7;
+}
+
+.search {
+  color: #d4eef7;
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+}
+
+#search-txt {
+  text-align: center; 
+  border-radius: 10px;
 }
 
 .main {
   display: flex;
   flex-direction: row;
+  justify-content: center; 
 }
 
 .dayOne, .dayTwo, .dayThree, .dayFour, .dayFive {
@@ -13,9 +52,31 @@ body{
 }
 
 .segment {
-  border: 2px solid black;
+  font-family: 'Contrail One', cursive;
+  background-color: #d4eef7;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  text-align: center; 
+  border: 2px solid #383838;
   height: 50px;
   width: 150px;
   margin: 0;
   padding: 0;
+}
+
+.topleft {
+  border-radius: 20px 0 0 0;
+}
+
+.topright {
+  border-radius: 0 20px 0 0;
+}
+
+.bottomright {
+  border-radius: 0 0 20px 0;
+}
+
+.bottomleft {
+  border-radius: 0 0 0 20px;
 }

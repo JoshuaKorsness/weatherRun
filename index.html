@@ -5,12 +5,20 @@
 		<title>Weather App</title>
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css?family=Contrail+One" rel="stylesheet"> 
 	</head>
 
 	<body>
 		<div class="container">
 	  		<header class="header">
+	  			<div class="intro">
+		  			<h1 class="intro1">Running Scheduler</h1>
+		  			<h2 class="intro2">Type in your city. This tool will pull the temperature, humidity, and chance of rain for the next five days, then pick the best time period to run each day.</h2>
+		  			<h3 class="intro3">Can't run at that time? Just click on it! The tool will calculate the next best time to run.</h3>
+		  		</div>
 	    		<div class="search">
+	    			<p>What city are you in?</p>
 	      			<input type="text" placeholder="Enter City Name" id="search-txt">
 	    		</div>
 	  		</header>
@@ -18,7 +26,7 @@
 	  		<main class="main">
 
 	    		<div class="time">
-	    			<div class="segment"></div>
+	    			<div class="segment topleft"></div>
 		    		<div class="segment" id="time1">12 am - 3 am</div>
 		    		<div class="segment" id="time2">3 am - 6 am</div>
 		    		<div class="segment" id="time3">6 am - 9 am</div>
@@ -26,67 +34,67 @@
 		    		<div class="segment" id="time5">12 pm - 3 pm</div>
 		    		<div class="segment" id="time6">3 pm - 6 pm</div>
 		    		<div class="segment" id="time7">6 pm - 9 pm</div>
-		    		<div class="segment" id="time8">9 pm - 12 pm</div>
+		    		<div class="segment bottomleft" id="time8">9 pm - 12 pm</div>
 		    	</div>
 	    		
 	    		<div class="day1">
 	    			<div class="segment" id="dayName1"></div>
-		    		<div class="segment" id="day10"></div>
-		    		<div class="segment" id="day11"></div>
-		    		<div class="segment" id="day12"></div>
-		    		<div class="segment" id="day13"></div>
-		    		<div class="segment" id="day14"></div>
-		    		<div class="segment" id="day15"></div>
-		    		<div class="segment" id="day16"></div>
-		    		<div class="segment" id="day17"></div>
+		    		<div class="segment" id="day10" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day11" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day12" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day13" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day14" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day15" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day16" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day17" data-score = "" data-runOk = "1"></div>
 		    	</div>
 
 	    		<div class="day2">
-	    			<div class="segment" id="dayName1"></div>
-		    		<div class="segment" id="day20"></div>
-		    		<div class="segment" id="day21"></div>
-		    		<div class="segment" id="day22"></div>
-		    		<div class="segment" id="day23"></div>
-		    		<div class="segment" id="day24"></div>
-		    		<div class="segment" id="day25"></div>
-		    		<div class="segment" id="day26"></div>
-		    		<div class="segment" id="day27"></div>
+	    			<div class="segment" id="dayName2"></div>
+		    		<div class="segment" id="day20" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day21" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day22" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day23" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day24" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day25" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day26" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day27" data-score = "" data-runOk = "1"></div>
 		    	</div>
 
 	    		<div class="day3">
-	    			<div class="segment" id="dayName1"></div>
-		    		<div class="segment" id="day30"></div>
-		    		<div class="segment" id="day31"></div>
-		    		<div class="segment" id="day32"></div>
-		    		<div class="segment" id="day33"></div>
-		    		<div class="segment" id="day34"></div>
-		    		<div class="segment" id="day35"></div>
-		    		<div class="segment" id="day36"></div>
-		    		<div class="segment" id="day37"></div>
+	    			<div class="segment" id="dayName3"></div>
+		    		<div class="segment" id="day30" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day31" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day32" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day33" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day34" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day35" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day36" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day37" data-score = "" data-runOk = "1"></div>
 		    	</div>
 
 	    		<div class="day4">
-	    			<div class="segment" id="dayName1"></div>
-		    		<div class="segment" id="day40"></div>
-		    		<div class="segment" id="day41"></div>
-		    		<div class="segment" id="day42"></div>
-		    		<div class="segment" id="day43"></div>
-		    		<div class="segment" id="day44"></div>
-		    		<div class="segment" id="day45"></div>
-		    		<div class="segment" id="day46"></div>
-		    		<div class="segment" id="day47"></div>
+	    			<div class="segment" id="dayName4"></div>
+		    		<div class="segment" id="day40" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day41" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day42" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day43" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day44" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day45" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day46" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day47" data-score = "" data-runOk = "1"></div>
 		    	</div>
 
 	    		<div class="day5">
-	    			<div class="segment" id="dayName1"></div>
-		    		<div class="segment" id="day50"></div>
-		    		<div class="segment" id="day51"></div>
-		    		<div class="segment" id="day52"></div>
-		    		<div class="segment" id="day53"></div>
-		    		<div class="segment" id="day54"></div>
-		    		<div class="segment" id="day55"></div>
-		    		<div class="segment" id="day56"></div>
-		    		<div class="segment" id="day57"></div>
+	    			<div class="segment topright" id="dayName5"></div>
+		    		<div class="segment" id="day50" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day51" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day52" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day53" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day54" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day55" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment" id="day56" data-score = "" data-runOk = "1"></div>
+		    		<div class="segment bottomright" id="day57" data-score = "" data-runOk = "1"></div>
 		    	</div>
 	    
 	  		</main>
