@@ -64,7 +64,6 @@ function theResponse(response) {
 		// Pick optimal running day
 		weatherDayList.push({timeIndex: timeIndex, weightedScore: 0, weatherCode: jsonObject.list[i].weather[0].id, temp: jsonObject.list[i].main.temp, weather: jsonObject.list[i].weather[0].description, humidity: jsonObject.list[i].main.humidity})
 		if (timeIndex === 7) {
-			console.log('fire');
 			runIndex = optimalRun(weatherDayList);
 
 			// Update data-score
@@ -114,12 +113,10 @@ function httpRequestAsync(url, callback){
 // Function to choose optimal running time
 function optimalRun(weatherObject) {
 
-	console.log(weatherObject);
-
 	// Adjust weighted scores for humidity
 	weatherObject.sort(function(a, b){return a.humidity - b.humidity});
 	weatherObject.forEach(function(i) {
-		i.weightedScore += 0.75*weatherObject.indexOf(i);
+		i.weightedScore += 0.5*weatherObject.indexOf(i);
 	})
 
 	// Adjust weighted scores for temperature
@@ -130,27 +127,28 @@ function optimalRun(weatherObject) {
 
 	// Adjust weighted scores for weather
 	weatherObject.forEach(function(i) {
-		if (i.weatherCode[0] === 2) {
+		const weatherFam = i.weatherCode.toString()[0];
+		if (weatherFam == 2) {
 			// Thunderstorm 
-			i.weightedScore += 6;
+			i.weightedScore += 20;
 		}
-		else if (i.weatherCode[0] === 3) {
+		else if (weatherFam == 3) {
 			// Drizzle
-			i.weightedScore += 4;
+			i.weightedScore += 8;
 		}
-		else if (i.weatherCode[0] === 5) {
+		else if (weatherFam == 5) {
 			// Rain
-			i.weightedScore += 5;
+			i.weightedScore += 10;
 		}
-		else if (i.weatherCode[0] === 6) {
+		else if (weatherFam == 6) {
 			// Snow
 			i.weightedScore += 3;
 		}
-		else if (i.weatherCode[0] === 7) {
+		else if (weatherFam == 7) {
 			// Atmosphere
 			i.weightedScore += 2;
 		}
-		else if (i.weatherCode === 800) {
+		else if (i.weatherCode == 800) {
 			// Clear
 			i.weightedScore += 0.5;
 		}
@@ -159,8 +157,6 @@ function optimalRun(weatherObject) {
 			i.weightedScore += 0;
 		}
 	})
-
-	console.log(weatherObject);
 
 	// Sort weatherObject based on lowest to highest score
 	weatherObject.sort(function(a, b){return a.weightedScore - b.weightedScore});
@@ -203,7 +199,12 @@ function redSeg(segment) {
 
 	// Sort remaining entries by score
 	dayList.sort(function(a, b){return a.dataset.score - b.dataset.score});
+	console.log(dayList);
+	const dayListFilt = dayList.filter(function(i) {
+		return i.dataset.score != "";
+	});
+	console.log(dayListFilt);
 
 	// Pick optimal running day
-	dayList[0].style.backgroundColor = "green";
+	dayListFilt[0].style.backgroundColor = "green";
 }
